@@ -5,6 +5,7 @@ A full-stack invoice management application built with React, TypeScript, and No
 ## Features
 
 ### Frontend (React + TypeScript)
+
 - **Invoice Listing**: Paginated table with sorting and filtering
 - **Multi-file Upload**: Drag-and-drop interface for PDF uploads
 - **Real-time Updates**: Live status updates during invoice processing
@@ -13,6 +14,7 @@ A full-stack invoice management application built with React, TypeScript, and No
 - **Sorting**: Sort by upload date, amount, or client name
 
 ### Backend (Node.js + Express + TypeScript)
+
 - **RESTful API**: Clean API endpoints for invoice management
 - **File Upload**: Secure PDF file handling with validation
 - **Processing Simulation**: Realistic processing delays (15-45 seconds)
@@ -30,12 +32,14 @@ A full-stack invoice management application built with React, TypeScript, and No
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ installed
 - npm or yarn package manager
 
 ### Installation
 
 1. **Clone and setup**:
+
    ```bash
    git clone <repository-url>
    cd invoice-management-system
@@ -43,6 +47,7 @@ A full-stack invoice management application built with React, TypeScript, and No
    ```
 
 2. **Start the application**:
+
    ```bash
    npm run dev
    ```
@@ -61,16 +66,18 @@ If you prefer to run servers separately:
 # Terminal 1 - Backend
 npm run server
 
-# Terminal 2 - Frontend  
+# Terminal 2 - Frontend
 npm run client
 ```
 
 ## API Endpoints
 
 ### GET /api/invoices
+
 Retrieve paginated invoice list with filtering and sorting.
 
 **Query Parameters**:
+
 - `page` (number): Page number (default: 1)
 - `limit` (number): Items per page (default: 10)
 - `sortBy` (string): Sort field (uploadDate, amount, clientName)
@@ -79,6 +86,7 @@ Retrieve paginated invoice list with filtering and sorting.
 - `search` (string): Search by filename or client name
 
 ### POST /api/invoices/upload
+
 Upload multiple PDF files.
 
 **Body**: FormData with files under 'invoices' key
@@ -86,6 +94,7 @@ Upload multiple PDF files.
 **Response**: Upload confirmation with created invoice IDs
 
 ### GET /api/invoices/:id
+
 Retrieve single invoice by ID for status polling.
 
 ## Project Structure
@@ -112,11 +121,13 @@ Retrieve single invoice by ID for status polling.
 ## Key Features Explained
 
 ### Real-time Processing Updates
+
 - Frontend polls backend every 3 seconds for processing invoices
 - Status transitions: Pending → Processing → Processed/Failed
 - Visual indicators with loading spinners and status badges
 
 ### File Upload Flow
+
 1. User selects/drops PDF files
 2. Files validated on frontend and backend
 3. Files uploaded to server storage
@@ -125,6 +136,7 @@ Retrieve single invoice by ID for status polling.
 6. Status updates provided via polling
 
 ### Mock Data Generation
+
 - Random client names from predefined list
 - Random invoice amounts ($1.00 - $100.00)
 - 80% success rate, 20% failure rate for processing
@@ -133,54 +145,22 @@ Retrieve single invoice by ID for status polling.
 ## Development Notes
 
 ### File Storage
+
 - Uploaded files stored in `/uploads` directory
 - Unique filenames generated to prevent conflicts
 - Only PDF files accepted (mime type validation)
 - 10MB file size limit
 
 ### Error Handling
+
 - Frontend displays user-friendly error messages
 - Backend validates file types and sizes
 - Graceful handling of network failures
 - Loading states throughout the application
 
 ### Performance Considerations
+
 - Efficient polling strategy (stops when processing complete)
 - Debounced search input
 - Pagination to handle large datasets
 - Optimized re-renders with React keys
-
-## Production Deployment
-
-For production deployment:
-
-1. **Build the frontend**:
-   ```bash
-   npm run build
-   ```
-
-2. **Configure environment variables**:
-   - Set appropriate CORS origins
-   - Configure file storage paths
-   - Set production API endpoints
-
-3. **Deploy backend**:
-   - Use PM2 or similar process manager
-   - Configure reverse proxy (nginx)
-   - Set up proper error logging
-
-4. **Deploy frontend**:
-   - Serve built files via CDN or static hosting
-   - Update API base URLs for production
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
