@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+
 import { FileText, Upload as UploadIcon } from "lucide-react";
 import InvoiceTable from "./components/InvoiceTable";
 import FilterBar from "./components/FilterBar";
@@ -15,7 +16,6 @@ function App() {
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage] = useState(10);
   const [activeTab, setActiveTab] = useState<"list" | "upload">("list");
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     field: "uploadDate",
@@ -26,7 +26,19 @@ function App() {
     status: "all",
     search: "",
   });
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [search, setSearch] = useState("");
 
+  const handleSearchChange = (search: string) => {
+    setSearch(search);
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+    debounceRef.current = setTimeout(() => {
+      setFilters({ ...filters, search });
+      setCurrentPage(1);
+    }, 600);
+  };
   const fetchInvoices = useCallback(async () => {
     try {
       setLoading(true);
@@ -75,10 +87,12 @@ function App() {
     setCurrentPage(1);
   };
 
-  const handleFilterChange = (newFilters: FilterConfig) => {
-    setFilters(newFilters);
-    setCurrentPage(1);
-  };
+  const handleFilterChange = useCallback(
+    (newFilters: FilterConfig) => {
+      handleSearchChange(newFilters.search);
+    },
+    [fetchInvoices]
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -134,7 +148,12 @@ function App() {
         {/* Content */}
         {activeTab === "list" ? (
           <div className="space-y-6">
-            <FilterBar filters={filters} onFilterChange={handleFilterChange} />
+            <FilterBar
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              search={search}
+              onSearchChange={handleSearchChange}
+            />
             <InvoiceTable
               invoices={invoices}
               sortConfig={sortConfig}

@@ -1,19 +1,26 @@
-import React from 'react';
-import { Search, Filter } from 'lucide-react';
-import { FilterConfig } from '../types';
+import React from "react";
+import { Search, Filter } from "lucide-react";
+import { FilterConfig } from "../types";
 
 interface FilterBarProps {
   filters: FilterConfig;
   onFilterChange: (filters: FilterConfig) => void;
+  search: string;
+  onSearchChange: (search: string) => void;
 }
 
-const FilterBar: React.FC<FilterBarProps> = ({ filters, onFilterChange }) => {
+const FilterBar: React.FC<FilterBarProps> = ({
+  filters,
+  onFilterChange,
+  search,
+  onSearchChange,
+}) => {
   const statusOptions = [
-    { value: 'all', label: 'All Status' },
-    { value: 'Pending', label: 'Pending' },
-    { value: 'Processing', label: 'Processing' },
-    { value: 'Processed', label: 'Processed' },
-    { value: 'Failed', label: 'Failed' },
+    { value: "all", label: "All Status" },
+    { value: "Pending", label: "Pending" },
+    { value: "Processing", label: "Processing" },
+    { value: "Processed", label: "Processed" },
+    { value: "Failed", label: "Failed" },
   ];
 
   return (
@@ -25,10 +32,8 @@ const FilterBar: React.FC<FilterBarProps> = ({ filters, onFilterChange }) => {
             <input
               type="text"
               placeholder="Search by file name or client name..."
-              value={filters.search}
-              onChange={(e) =>
-                onFilterChange({ ...filters, search: e.target.value })
-              }
+              value={search}
+              onChange={(e) => onSearchChange(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>

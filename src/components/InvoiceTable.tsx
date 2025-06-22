@@ -58,7 +58,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
     try {
       await navigator.clipboard.writeText(text);
       setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000); // Clear notification after 2 seconds
+      setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
       // Fallback for older browsers
@@ -78,7 +78,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
     }
   };
 
-  const getStatusIcon = (status: Invoice["status"]) => {
+  const getStatusIcon = (status: Invoice["status"] | string) => {
     switch (status) {
       case "Pending":
         return <Clock className="w-4 h-4 text-yellow-500" />;
@@ -93,7 +93,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
     }
   };
 
-  const getStatusBadge = (status: Invoice["status"]) => {
+  const getStatusBadge = (status: Invoice["status"] | string) => {
     const baseClasses = "px-2 py-1 rounded-full text-xs font-medium";
     switch (status) {
       case "Pending":

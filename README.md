@@ -36,6 +36,14 @@ A full-stack invoice management application built with React, TypeScript, and No
 - Node.js 18+ installed
 - npm or yarn package manager
 
+### Environment Setup
+
+Before starting the application, create a `.env` file in the project root with the following configuration:
+
+```
+VITE_API_BASE_URL='http://localhost:3001/api'
+```
+
 ### Installation
 
 1. **Clone and setup**:

@@ -1,6 +1,6 @@
-import { Invoice, InvoiceListResponse, UploadResponse } from '../types';
+import { Invoice, InvoiceListResponse, UploadResponse } from "../types";
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const api = {
   async getInvoices(params: {
@@ -12,16 +12,16 @@ export const api = {
     search?: string;
   }): Promise<InvoiceListResponse> {
     const searchParams = new URLSearchParams();
-    
+
     Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== '') {
+      if (value !== undefined && value !== "") {
         searchParams.append(key, value.toString());
       }
     });
 
     const response = await fetch(`${API_BASE_URL}/invoices?${searchParams}`);
     if (!response.ok) {
-      throw new Error('Failed to fetch invoices');
+      throw new Error("Failed to fetch invoices");
     }
     return response.json();
   },
@@ -29,27 +29,27 @@ export const api = {
   async getInvoice(id: string): Promise<Invoice> {
     const response = await fetch(`${API_BASE_URL}/invoices/${id}`);
     if (!response.ok) {
-      throw new Error('Failed to fetch invoice');
+      throw new Error("Failed to fetch invoice");
     }
     return response.json();
   },
 
   async uploadInvoices(files: File[]): Promise<UploadResponse> {
     const formData = new FormData();
-    files.forEach(file => {
-      formData.append('invoices', file);
+    files.forEach((file) => {
+      formData.append("invoices", file);
     });
 
     const response = await fetch(`${API_BASE_URL}/invoices/upload`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'Failed to upload invoices');
+      throw new Error(error.error || "Failed to upload invoices");
     }
 
     return response.json();
-  }
+  },
 };
